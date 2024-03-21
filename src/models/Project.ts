@@ -3,7 +3,7 @@ import mongoose, { Schema, Document } from "mongoose";
 export type ProjectType = Document & {
   projectName: string;
   clientName: string;
-  derscription: string;
+  description: string;
 };
 
 const ProjectSchema: Schema = new Schema({
