@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { body } from "express-validator";
+import { body , param} from "express-validator";
 import { ProjectController } from "../controllers/ProjectController";
 import { handleInputErrors } from "../middleware/validation";
 
@@ -7,12 +7,24 @@ const router = Router();
 
 router.post(
   "/",
-  body("projectName").notEmpty().withMessage("Project name is required"),
-  body("clientName").notEmpty().withMessage("Client name is required"),
-  body("description").notEmpty().withMessage("Description of the project is required"),
+  body("projectName")
+    .notEmpty()
+    .withMessage("Project name is required"),
+  body("clientName")
+    .notEmpty()
+    .withMessage("Client name is required"),
+  body("description")
+    .notEmpty()
+    .withMessage("Description of the project is required"),
   handleInputErrors,
   ProjectController.createProject
 );
 router.get("/", ProjectController.getAllProjects);
+router.get("/:id", 
+  param("id")
+    .isMongoId()
+    .withMessage("Invalid project id"),
+  handleInputErrors,
+  ProjectController.getProjectById);
 
 export default router;
