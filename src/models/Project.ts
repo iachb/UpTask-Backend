@@ -5,6 +5,7 @@ export interface IProject extends Document {
   projectName: string;
   clientName: string;
   description: string;
+  // Populate the tasks field with the ITask interface
   tasks: PopulatedDoc<ITask & Document>[];
 }
 

@@ -18,6 +18,7 @@ export class TaskController {
 
   static getProjectTask = async (req: Request, res: Response) => {
     try {
+      // Find all tasks that belong to the project
       const tasks = await Task.find({ project: req.project._id }).populate('project');
       res.json(tasks);
     } catch (error) {

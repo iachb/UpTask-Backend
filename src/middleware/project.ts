@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import Project, { IProject } from "../models/Project";
 
+// Extend the Express Request interface to include a project property
 declare global {
   namespace Express {
     interface Request {
