@@ -25,4 +25,20 @@ export class TaskController {
       res.status(500).json({ error: "There's been an error" });
     }
   };
+
+  static getTaskbyId = async (req: Request, res: Response) => {
+    try {
+      const {taskId} = req.params;
+      const task = await Task.findById(taskId)
+      if (!task) {
+        return res.status(404).json({ error: "Task not found" });
+      }
+      if (task.project.toString() !== req.project.id){
+        return res.status(400).json({ error: "Bad request" });
+      }
+      res.json(task);
+    } catch (error) {
+      res.status(500).json({ error: "There's been an error" });
+    }
+  }
 }
