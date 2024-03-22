@@ -5,6 +5,7 @@ import { TaskController } from "../controllers/TaskController";
 import { handleInputErrors } from "../middleware/validation";
 import { projectExist } from "../middleware/project";
 import {taskExist} from "../middleware/task";
+import {taskBelongstoProject} from "../middleware/task";
 
 const router = Router();
 
@@ -50,6 +51,7 @@ router.delete(
 
 router.param("projectId", projectExist);
 router.param("taskId", taskExist);
+router.param("taskId", taskBelongstoProject)
 
 router.post(
   "/:projectId/tasks",

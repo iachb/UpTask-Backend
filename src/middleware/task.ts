@@ -28,3 +28,15 @@ export async function taskExist(
     res.status(500).json({ error: error.message });
   }
 }
+
+export function taskBelongstoProject(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  if (req.task.project.toString() !== req.project.id.toString()) {
+    const error = new Error("Bad request");
+    return res.status(400).json({ error: error.message });
+  }
+  next();
+}
