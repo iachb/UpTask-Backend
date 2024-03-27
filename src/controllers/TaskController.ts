@@ -10,7 +10,7 @@ export class TaskController {
       // Push the task id to the project tasks array
       req.project.tasks.push(task._id);
       await Promise.all([task.save(), req.project.save()]);
-      res.send("Task created");
+      res.send("Task created succesfully");
     } catch (error) {
       res.status(500).json({ error: "There's been an error" });
     }
@@ -41,7 +41,7 @@ export class TaskController {
       req.task.name = req.body.name;
       req.task.description = req.body.description;
       await req.task.save();
-      res.send("Task updated");
+      res.send("Task updated succesfully");
     } catch (error) {
       res.status(500).json({ error: "There's been an error" });
     }
@@ -51,10 +51,10 @@ export class TaskController {
     try {
       // Remove the task id from the project tasks array
       req.project.tasks = req.project.tasks.filter(
-        (task) => task.toString() !== req.task.id.ToSTring()
+        (task) => task.toString() !== req.task.id.toString()
       );
       await Promise.allSettled([req.task.deleteOne(), req.project.save()]);
-      res.send("Task deleted");
+      res.send("Task deleted succesfully");
     } catch (error) {
       res.status(500).json({ error: "There's been an error" });
     }
@@ -65,7 +65,7 @@ export class TaskController {
       const { status } = req.body;
       req.task.status = status;
       await req.task.save();
-      res.send("Task status updated");
+      res.send("Task status updated succesfully");
     } catch (error) {
       res.status(500).json({ error: "There's been an error" });
     }
