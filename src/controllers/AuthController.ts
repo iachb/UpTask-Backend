@@ -49,11 +49,19 @@ export class AuthController {
     try {
       const { token } = req.body;
 
+      // Check if token exists
       const tokenExists = await Token.findOne({ token });
       if (!tokenExists) {
         const error = new Error("Invalid token");
         return res.status(401).json({ error: error.message });
       }
+
+      // Confirm user
+      const user = await User.findById(tokenExists.user);
+      user.confirmed = true;
+
+      await Promise.allSettled([user.save(), tokenExists.deleteOne()]);
+      res.send("Account confirmed successfully");
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
     }
