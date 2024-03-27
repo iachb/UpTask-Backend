@@ -3,6 +3,7 @@ import User from "../models/User";
 import { hashPassword } from "../utils/auth";
 import { generateToken } from "../utils/token";
 import Token from "../models/Token";
+import { transporter } from "../config/nodemailer";
 
 export class AuthController {
   static createAccount = async (req: Request, res: Response) => {
@@ -26,6 +27,15 @@ export class AuthController {
       const token = new Token()
       token.token = generateToken();
       token.user = user._id;
+
+      // Send email
+      await transporter.sendMail({
+        from:'UpTask <admin@uptask.com>',
+        to: user.email,
+        subject: "UpTask - Verify your email",
+        text: `Click on the link to verify your email:`,
+        html: `<p>Testing email</p>`
+      });
 
       await Promise.allSettled([user.save(), token.save()]);
       
